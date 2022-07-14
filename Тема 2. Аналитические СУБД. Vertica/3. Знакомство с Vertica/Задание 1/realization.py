@@ -1,19 +1,4 @@
-from getpass import getpass
 import vertica_python
-import pydantic
-
-
-class VerticaSettings(pydantic.BaseSettings):
-    host: str
-    port: int
-    user: str
-    password: str
-
-    class Config:
-        env_prefix = "vertica_"
-
-
-# settings = VerticaSettings()
 
 conn_info = {
     "host": "VERTICA_HOST",
