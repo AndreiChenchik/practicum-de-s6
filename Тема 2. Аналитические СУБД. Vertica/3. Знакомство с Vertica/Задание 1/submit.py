@@ -1,28 +1,36 @@
 import os
- 
+
 import requests
 
-def submit(t_code, rlz_file=''):
-    user_code = ''
+
+def submit(t_code, rlz_file=""):
+    user_code = ""
     if rlz_file:
         full_lesson_path = os.path.dirname(os.path.abspath(__file__))
-        user_file = f'{full_lesson_path}/{rlz_file}'
+        user_file = f"{full_lesson_path}/{rlz_file}"
 
-        with open(user_file, 'r') as u_file:
+        with open(user_file, "r") as u_file:
             user_code = u_file.read()
+            user_code = user_code.replace(
+                "VERTICA_HOST", os.environ["VERTICA_HOST"]
+            )
+            user_code = user_code.replace(
+                "VERTICA_PORT", os.environ["VERTICA_PORT"]
+            )
+            user_code = user_code.replace(
+                "VERTICA_USER", os.environ["VERTICA_USER"]
+            )
+            user_code = user_code.replace(
+                "VERTICA_PASSWORD", os.environ["VERTICA_PASSWORD"]
+            )
 
     r = requests.post(
-        'http://localhost:3002',
-        json={
-            "code": user_code,
-            "test": t_code
-            })
-
-    print(r.json()['stderr'].replace('__test',rlz_file[:-3]))
-    print(r.json()['stdout'].replace('__test',rlz_file[:-3]))
-
-if __name__ == '__main__':
-    submit(
-        'de06020301',
-        'realization.py'
+        "http://localhost:3002", json={"code": user_code, "test": t_code}
     )
+
+    print(r.json()["stderr"].replace("__test", rlz_file[:-3]))
+    print(r.json()["stdout"].replace("__test", rlz_file[:-3]))
+
+
+if __name__ == "__main__":
+    submit("de06020301", "realization.py")
