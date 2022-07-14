@@ -1,1 +1,3 @@
-vertica_user = 'укажите здесь свой логин'
+vertica_user = "andrei_chenchik_me"
+
+# Двигайтесь дальше! Ваш код: qku9TXNkdT

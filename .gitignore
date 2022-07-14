@@ -136,3 +136,4 @@ dmypy.json
 plugins/*
 !plugins/vertica-jdbc-11.0.2-0.jar
 
+test_dataset.csv
