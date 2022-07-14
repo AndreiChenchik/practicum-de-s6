@@ -1,3 +1,3 @@
-vertica_user = "andrei_chenchik_me"
+vertica_user = "VERTICA_USER"
 
 # Двигайтесь дальше! Ваш код: qku9TXNkdT
