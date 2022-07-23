@@ -1,20 +1,19 @@
-CREATE TABLE if not exists users
+drop table if exists members;
+drop table if exists members_rej;
+
+create table if not exists members
 (
     id int NOT NULL,
-    chat_name varchar(200),
-    registration_ts timestamp(6),
-    country varchar(200),
-    age float,
-    gender varchar(1),
+    age int,
+    gender char,
     email varchar(50),
     CONSTRAINT C_PRIMARY PRIMARY KEY (id) DISABLED
 );
 
-
-COPY users ( id,chat_name,registration_ts,country,age,gender,email  ENFORCELENGTH )
-FROM LOCAL '/Volumes/MacData/Developer/learning/DataEngineering/praktikum/sprint6/Тема 2. Аналитические СУБД. Vertica/5. Запись данных в Vertica/Задание 2/users.csv'
+COPY members ( id,age,gender,email  ENFORCELENGTH )
+FROM LOCAL '/Volumes/MacData/Developer/learning/DataEngineering/praktikum/sprint6/Тема 2. Аналитические СУБД. Vertica/5. Запись данных в Vertica/Задание 2/members.csv'
 DELIMITER ';'
-REJECTED DATA AS TABLE users_rej
+REJECTED DATA AS TABLE members_rej
 ; 
 
 -- Двигайтесь дальше! Ваш код: BypNVb4HdI
