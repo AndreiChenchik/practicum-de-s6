@@ -9,7 +9,8 @@ services:
       - ./plugins/:/plugins
 
   de-sprint-6:
-    image: sindb/de-sprint-6:latest
+    # image: sindb/de-sprint-6:latest
+    build: .
     ports:
       - 3000:3000
       - 3002:3002
