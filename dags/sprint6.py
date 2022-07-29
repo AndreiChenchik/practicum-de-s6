@@ -39,15 +39,15 @@ def sprint6():
             s3.download_file(key="dialogs.csv", hook=s3_hook)
 
         @task
-        def test_users():
+        def test_users_csv():
             csv.test_csv(file="/data/users.csv")
 
         @task
-        def test_groups():
+        def test_groups_csv():
             csv.test_csv(file="/data/groups.csv")
 
         @task
-        def test_dialogs():
+        def test_dialogs_csv():
             csv.test_csv(file="/data/dialogs.csv")
 
         @task
@@ -100,17 +100,17 @@ def sprint6():
         get_groups = get_groups()
         get_dialogs = get_dialogs()
 
-        test_users = test_users()
-        test_groups = test_groups()
-        test_dialogs = test_dialogs()
+        test_users_csv = test_users_csv()
+        test_groups_csv = test_groups_csv()
+        test_dialogs_csv = test_dialogs_csv()
 
         load_users = load_users()
         load_groups = load_groups()
         load_dialogs = load_dialogs()
 
-        get_users >> test_users >> load_users
-        get_groups >> test_groups >> load_groups
-        get_dialogs >> test_dialogs >> load_dialogs
+        get_users >> test_users_csv >> load_users
+        get_groups >> test_groups_csv >> load_groups
+        get_dialogs >> test_dialogs_csv >> load_dialogs
 
     end = EmptyOperator(task_id="end")
 
