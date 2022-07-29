@@ -5,13 +5,11 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 def download_file(
     *,
     key: str,
-    connection_id: str = "de_ycloud_s3",
+    hook: S3Hook,
     bucket_name: str = "sprint6",
     local_path: str = "/data/"
 ):
-    s3_hook = S3Hook(connection_id)
-
-    file = s3_hook.download_file(
+    file = hook.download_file(
         key=key, bucket_name=bucket_name, local_path=local_path
     )
 
@@ -19,4 +17,5 @@ def download_file(
 
 
 if __name__ == "__main__":
-    download_file(key="groups.csv")
+    hook = S3Hook("de_ycloud_s3")
+    download_file(key="groups.csv", hook=hook)
