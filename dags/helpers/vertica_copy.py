@@ -33,7 +33,7 @@ def copy_from_local(
         COPY {to_db} ( {columns_list} )
         FROM LOCAL '{from_csv_path}'
         DELIMITER ','
-        -- ENCLOSED BY '"'
+        ENCLOSED BY '"'
         NO ESCAPE
         REJECTED DATA AS TABLE {to_db}_rej
         ; 

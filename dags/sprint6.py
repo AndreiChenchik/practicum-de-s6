@@ -91,7 +91,8 @@ def sprint6():
                     "message_from",
                     "message_to",
                     "message ENFORCELENGTH",
-                    "message_group",
+                    "group_filler FILLER NUMERIC",
+                    "message_group AS group_filler::INT",
                 ],
                 conn=vertica_conn,
             )
