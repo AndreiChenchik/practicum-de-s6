@@ -10,7 +10,7 @@ drop table if exists
 create table ANDREI_CHENCHIK_ME__STAGING.users(
     id int not null,
     chat_name varchar(200),
-    registration_dt timestamp(0),
+    registration_dt timestamp,
     country varchar(200),
     age numeric(4,1),
     CONSTRAINT C_PRIMARY PRIMARY KEY (id) DISABLED
@@ -24,7 +24,7 @@ create table ANDREI_CHENCHIK_ME__STAGING.groups(
     id int not null,
     admin_id int,
     group_name varchar(100),
-    registration_dt timestamp(0),
+    registration_dt timestamp,
     is_private bool,
     CONSTRAINT C_PRIMARY PRIMARY KEY (id) DISABLED
 )
