@@ -91,7 +91,7 @@ def sprint6():
                     "message_from",
                     "message_to",
                     "message ENFORCELENGTH",
-                    "message_type ENFORCELENGTH",
+                    "message_group",
                 ],
                 conn=vertica_conn,
             )

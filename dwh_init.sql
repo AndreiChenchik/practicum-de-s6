@@ -37,11 +37,11 @@ GROUP BY calendar_hierarchy_day(registration_dt::date, 3, 2)
 
 create table ANDREI_CHENCHIK_ME__STAGING.dialogs(
     message_id int not null,
-    message_ts timestamp(0),
+    message_ts timestamp,
     message_from int,
     message_to int ,
     message varchar(1000),
-    message_type varchar(100),   
+    message_group int,   
     CONSTRAINT C_PRIMARY PRIMARY KEY (message_id) DISABLED
 
 )
@@ -51,4 +51,57 @@ PARTITION BY message_ts::date
 GROUP BY calendar_hierarchy_day(message_ts::date, 3, 2)
 ;
 
+drop table if exists ANDREI_CHENCHIK_ME__DWH.h_users;
+
+create table ANDREI_CHENCHIK_ME__DWH.h_users
+(
+    hk_user_id bigint primary key,
+    user_id      int,
+    registration_dt datetime,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_user_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+drop table if exists ANDREI_CHENCHIK_ME__DWH.h_dialogs;
+
+create table ANDREI_CHENCHIK_ME__DWH.h_dialogs
+(
+    hk_message_id bigint primary key,
+    message_id      int,
+    datetime datetime,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_message_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+
+drop table if exists ANDREI_CHENCHIK_ME__DWH.h_groups;
+
+create table ANDREI_CHENCHIK_ME__DWH.h_groups
+(
+    hk_group_id bigint primary key,
+    group_id      int,
+    registration_dt datetime,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_group_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
 -- 3.3.1 Двигайтесь дальше! Ваш код: QgBA3wrA1C
+-- 3.6.1 Двигайтесь дальше! Ваш код: ZPSFu4gGWm
