@@ -79,6 +79,89 @@ where hu.user_id is not null and hash(hu.hk_user_id, hd.hk_message_id)
     not in (select hk_l_user_message from ANDREI_CHENCHIK_ME__DWH.l_user_message);
 
 
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_admins(
+    hk_admin_id, is_admin,admin_from,load_dt,load_src
+)
+select 
+    la.hk_l_admin_id
+    ,True as is_admin
+    ,hg.registration_dt
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.l_admins as la
+left join ANDREI_CHENCHIK_ME__DWH.h_groups as hg 
+    on la.hk_group_id = hg.hk_group_id; 
+
+
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_user_chatinfo(
+    hk_user_id, chat_name, load_dt,load_src
+)
+select 
+    hu.hk_user_id
+    ,u.chat_name
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.h_users as hu
+left join ANDREI_CHENCHIK_ME__STAGING.users as u 
+    on hu.user_id = u.id; 
+
+
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_group_name(
+    hk_group_id, group_name, load_dt,load_src
+)
+select 
+    hg.hk_group_id
+    ,g.group_name
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.h_groups as hg
+left join ANDREI_CHENCHIK_ME__STAGING.groups as g
+    on hg.group_id = g.id;
+
+
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_group_private_status(
+    hk_group_id, is_private, load_dt,load_src
+)
+select 
+    hg.hk_group_id
+    ,g.is_private
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.h_groups as hg
+left join ANDREI_CHENCHIK_ME__STAGING.groups as g
+    on hg.group_id = g.id; 
+
+
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_dialog_info(
+    hk_message_id, message, message_from, message_to, load_dt,load_src
+)
+select 
+    hd.hk_message_id
+    ,d.message
+    ,d.message_from
+    ,d.message_to
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.h_dialogs as hd
+left join ANDREI_CHENCHIK_ME__STAGING.dialogs as d
+    on hd.message_id = d.message_id; 
+
+
+INSERT INTO ANDREI_CHENCHIK_ME__DWH.s_user_socdem(
+    hk_user_id, country, age, load_dt,load_src
+)
+select 
+    hu.hk_user_id
+    ,u.country
+    ,u.age
+    ,now() as load_dt
+    ,'s3' as load_src
+from ANDREI_CHENCHIK_ME__DWH.h_users as hu
+left join ANDREI_CHENCHIK_ME__STAGING.users as u 
+    on hu.user_id = u.id; 
+
+
 
 -- 3.6.2 Двигайтесь дальше! Ваш код: bRhESIKcrH
 -- 3.6.4 Двигайтесь дальше! Ваш код: tSUlVB5rgw
+-- 3.6.5 Двигайтесь дальше! Ваш код: VOsZ1JXImP

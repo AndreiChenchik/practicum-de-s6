@@ -1,4 +1,14 @@
 drop table if exists 
+	ANDREI_CHENCHIK_ME__DWH.s_admins,
+	ANDREI_CHENCHIK_ME__DWH.s_user_chatinfo,
+	ANDREI_CHENCHIK_ME__DWH.s_group_name,
+    ANDREI_CHENCHIK_ME__DWH.s_group_private_status,
+    ANDREI_CHENCHIK_ME__DWH.s_dialog_info,
+    ANDREI_CHENCHIK_ME__DWH.s_user_socdem
+;
+
+
+drop table if exists 
 	ANDREI_CHENCHIK_ME__DWH.l_groups_dialogs,
 	ANDREI_CHENCHIK_ME__DWH.l_user_message,
 	ANDREI_CHENCHIK_ME__DWH.l_admins
@@ -151,8 +161,103 @@ PARTITION BY load_dt::date
 GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
 
 
+create table ANDREI_CHENCHIK_ME__DWH.s_admins (
+    hk_admin_id bigint not null 
+        CONSTRAINT fk_s_admins_l_admins 
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.l_admins (hk_l_admin_id),
+    is_admin boolean,
+    admin_from datetime,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_admin_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+create table ANDREI_CHENCHIK_ME__DWH.s_user_chatinfo (
+    hk_user_id bigint not null 
+        CONSTRAINT fk_s_user_chatinfo_h_users 
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.h_users (hk_user_id),
+    chat_name varchar(200),
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_user_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+create table ANDREI_CHENCHIK_ME__DWH.s_group_name (
+    hk_group_id bigint not null 
+        CONSTRAINT fk_s_group_name_h_groups
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.h_groups (hk_group_id),
+    group_name varchar(100),
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_group_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+create table ANDREI_CHENCHIK_ME__DWH.s_group_private_status (
+    hk_group_id bigint not null 
+        CONSTRAINT fk_s_group_name_h_groups
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.h_groups (hk_group_id),
+    is_private bool,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_group_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+create table ANDREI_CHENCHIK_ME__DWH.s_dialog_info (
+    hk_message_id bigint not null 
+        CONSTRAINT fk_s_dialog_info_h_dialogs
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.h_dialogs (hk_message_id),
+    message varchar(1000),
+    message_from int,
+    message_to int ,
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_message_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+create table ANDREI_CHENCHIK_ME__DWH.s_user_socdem (
+    hk_user_id bigint not null 
+        CONSTRAINT fk_s_user_socdem_h_users 
+        REFERENCES ANDREI_CHENCHIK_ME__DWH.h_users (hk_user_id),
+    country varchar(200),
+    age numeric(4,1),
+    load_dt datetime,
+    load_src varchar(20)
+)
+order by load_dt
+SEGMENTED BY hk_user_id all nodes
+PARTITION BY load_dt::date
+GROUP BY calendar_hierarchy_day(load_dt::date, 3, 2);
+;
+
+
+
 
 -- 3.3.1 Двигайтесь дальше! Ваш код: QgBA3wrA1C
 -- 3.6.1 Двигайтесь дальше! Ваш код: ZPSFu4gGWm
 -- 3.6.3 Двигайтесь дальше! Ваш код: BqqAznPPKg
-
+-- 3.6.5 Двигайтесь дальше! Ваш код: VOsZ1JXImP
